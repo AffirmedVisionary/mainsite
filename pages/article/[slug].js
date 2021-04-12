@@ -1,47 +1,88 @@
-import Layout from '../../components/layout'
-import { url } from '../../config/next.config'
-import ReactMarkdown from 'react-markdown'
-import Head from 'next/head'
-import Date from '../../components/date'
-import utilStyles from '../../styles/utils.module.css'
+import ReactMarkdown from "react-markdown";
+import Moment from "react-moment";
+import { fetchAPI } from "../../lib/api";
+import Layout from "../../components/layout";
+import Image from "../../components/image";
+import Seo from "../../components/seo";
+import { getStrapiMedia } from "../../lib/media";
 
-export default function Article({ article }) {
+const Article = ({ article, categories }) => {
+  const imageUrl = getStrapiMedia(article.image);
+
+  const seo = {
+    metaTitle: article.title,
+    metaDescription: article.description,
+    shareImage: article.image,
+    article: true,
+  };
+
   return (
-    <Layout>
-      <Head>
-        <title>{article.title}</title>
-      </Head>
-      <article>
-        <h1 className={utilStyles.headingXl}>{article.title}</h1>
-        <div className={utilStyles.lightText}>
-          <Date dateString={article.date} />
+    <Layout categories={categories}>
+      <Seo seo={seo} />
+      <div
+        id="banner"
+        className="uk-height-medium uk-flex uk-flex-center uk-flex-middle uk-background-cover uk-light uk-padding uk-margin"
+        data-src={imageUrl}
+        data-srcset={imageUrl}
+        data-uk-img
+      >
+        <h1>{article.title}</h1>
+      </div>
+      <div className="uk-section">
+        <div className="uk-container uk-container-small">
+          <ReactMarkdown source={article.content} escapeHtml={false} />
+          <hr className="uk-divider-small" />
+          <div className="uk-grid-small uk-flex-left" data-uk-grid="true">
+            <div>
+              {article.author.picture && (
+                <Image
+                  image={article.author.picture}
+                  style={{
+                    position: "static",
+                    borderRadius: "50%",
+                    height: 30,
+                  }}
+                />
+              )}
+            </div>
+            <div className="uk-width-expand">
+              <p className="uk-margin-remove-bottom">
+                By {article.author.name}
+              </p>
+              <p className="uk-text-meta uk-margin-remove-top">
+                <Moment format="MMM Do YYYY">{article.published_at}</Moment>
+              </p>
+            </div>
+          </div>
         </div>
-              <ReactMarkdown>{ article.content }</ReactMarkdown>
-      </article>
+      </div>
     </Layout>
-  )
-}
+  );
+};
 
-export const getStaticProps = async (context) => {
-  const data = await fetch(`${url}/articles/${context.params.id}`);
-  const article = await data.json();
+export async function getStaticPaths() {
+  const articles = await fetchAPI("/articles");
 
   return {
-    props: { article },
+    paths: articles.map((article) => ({
+      params: {
+        slug: article.slug,
+      },
+    })),
+    fallback: false,
+  };
+}
+
+export async function getStaticProps({ params }) {
+  const articles = await fetchAPI(
+    `/articles?slug=${params.slug}&status=published`
+  );
+  const categories = await fetchAPI("/categories");
+
+  return {
+    props: { article: articles[0], categories },
     revalidate: 1,
   };
-};
-export async function getStaticPaths() {
-  // Call an external API endpoint to get posts
-  const res = await fetch(`${url}/articles`);
-  const articles = await res.json();
-
-  // Get the paths we want to pre-render based on posts
-  const paths = articles.map((item) => ({
-    params: { slug: item.slug },
-  }));
-
-  // We'll pre-render only these paths at build time.
-  // { fallback: false } means other routes should 404.
-  return { paths, fallback: false };
 }
+
+export default Article;
