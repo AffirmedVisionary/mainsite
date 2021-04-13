@@ -1,0 +1,100 @@
+.collapsed {
+    display: none;
+}
+
+/* The menu expansion */
+
+/* .container {
+    background-color: #fafafa;
+    transform-origin: top left;
+    transition: transform 0.5s linear;
+    width: 100vw;
+    padding: 50px;
+  }
+  
+  .container.show-nav {
+    transform: rotate(-20deg);
+  }
+  
+  .circleContainer {
+    position: fixed;
+    top: -100px;
+    left: -100px;
+  }
+  
+  .circle {
+    background-color: #ff7979;
+    height: 200px;
+    width: 200px;
+    border-radius: 50%;
+    position: relative;
+    transition: transform 0.5s linear;
+  
+  }
+  
+  .circle button {
+    cursor: pointer;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    height: 100px;
+    background: transparent;
+    border: 0;
+    font-size: 26px;
+    color: #fff;
+  }
+  
+  .circle button:focus {
+    outline: none;
+  }
+  
+  .circle button#open {
+    left: 60%;
+  }
+  
+  .circle button#close {
+    top: 60%;
+    transform: rotate(90deg);
+    transform-origin: top left;
+  } */
+
+
+
+  /* Animate Navigation */
+  
+  .icon {
+    color: rgb(201, 69, 69);
+    border: 0;
+    cursor: pointer;
+    padding: 0;
+    position: relative;
+    height: 30px;
+    width: 30px;
+  }
+  
+  .icon:focus {
+    outline: 0;
+  }
+  
+  .icon .line {
+    background-color: #102a57;
+    height: 2px;
+    width: 20px;
+    position: absolute;
+    top: 10px;
+    left: 5px;
+    transition: transform 0.6s linear;
+  }
+  
+  .icon .line2 {
+    top: auto;
+    bottom: 10px;
+  }
+  
+  #nav.active .icon .line1 {
+    transform: rotate(-765deg) translateY(5.5px);
+  }
+  
+  #nav.active .icon .line2 {
+    transform: rotate(765deg) translateY(-5.5px);
+  }
