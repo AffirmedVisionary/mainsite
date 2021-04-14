@@ -1,9 +1,9 @@
-import Nav3 from "./nav3";
+import Nav from "./nav";
 
 
 const Layout = ({ children, categories, seo }) => (
   <>
-    <Nav3 categories={categories} />
+    <Nav categories={categories} />
       {children}
   </>
 );
