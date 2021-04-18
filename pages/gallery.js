@@ -1,65 +1,47 @@
-import React, { useState, useCallback } from "react";
+import React from "react";
+import Articles from "../components/articles";
 import Layout from "../components/layout";
-import { render } from "react-dom";
-import Gallery from "react-photo-gallery";
-import Carousel, { Modal, ModalGateway } from "react-images";
-// import { photos } from "./photos";
-import Image from '../components/image'
+import Seo from "../components/seo";
 import { fetchAPI } from "../lib/api";
+import Gallery from 'react-photo-gallery'
 
 
-const GalleryPage = ( images, hashtags, categories ) => {
-  
-  // const [currentImage, setCurrentImage] = useState(0);
-  // const [viewerIsOpen, setViewerIsOpen] = useState(false);
-
-  // const openLightbox = useCallback((event, { index }) => {
-  //   setCurrentImage(index);
-  //   setViewerIsOpen(true);
-  // }, []);
-
-  // const closeLightbox = () => {
-  //   setCurrentImage(0);
-  //   setViewerIsOpen(false);
-  // };
+const GalleryP = ({ articles, categories, images }) => {
+  const BasicRows = () => <Gallery photos={images} />;
 
   return (
     <Layout categories={categories}>
-      <Gallery photos={images.name}
-        // onClick={openLightbox}
-      />
-      {/* <ModalGateway>
-        {viewerIsOpen ? (
-          <Modal onClose={closeLightbox}>
-            <Carousel
-              currentIndex={currentImage}
-              views={photos.map(x => ({
-                ...x,
-                srcset: x.srcSet,
-                caption: x.title
-              }))}
-            />
-          </Modal>
-        ) : null}
-      </ModalGateway> */}
+      <Seo />
+      <div className="uk-section">
+        <div>
+          <h1>The Gallery Spot</h1>
+          <div>
+          <BasicRows />
+          </div>
+        </div>
+        <div className="uk-container uk-container-large">
+          <h1>The Blog</h1>
+        </div>
+        <div id='for-articles'>
+          <Articles articles={articles} />
+          </div>
+      </div>
     </Layout>
   );
-}
-
-export default GalleryPage
-
+};
 
 export async function getStaticProps() {
   // Run API calls in parallel
-  const [images, hashtags, gallery, categories] = await Promise.all([
-    fetchAPI("/images"),
-    fetchAPI("/hashtags"),
-    fetchAPI("/gallery"),
+  const [articles, categories, images] = await Promise.all([
+    fetchAPI("/articles?status=published"),
     fetchAPI("/categories"),
+    fetchAPI("/images"),
   ]);
 
   return {
-    props: { images, hashtags, gallery },
+    props: { articles, categories, images },
     revalidate: 1,
   };
 }
+
+export default GalleryP;
