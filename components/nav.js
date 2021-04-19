@@ -73,7 +73,16 @@ const Nav = ({ categories }) => {
               )
             })}
           </ul>
-                  </div>
+          </div>
+          
+                  <Link href='/gallery'>
+            <a
+              className='block mt-4 lg:inline-block lg:mt-0 text-teal-200 mr-4'
+              data-cy='nav-item'
+            >
+              Gallery
+            </a>
+          </Link>
                   <Link href='/about'>
             <a
               className='block mt-4 lg:inline-block lg:mt-0 text-teal-200 mr-4'
@@ -93,3 +102,17 @@ const Nav = ({ categories }) => {
 }
 
 export default Nav
+
+
+/* export async function getStaticProps() {
+  // Run API calls in parallel
+  const [categories, hashtags] = await Promise.all([
+    fetchAPI("/categories"),
+    fetchAPI("/hashtags"),
+  ]);
+
+  return {
+    props: { categories, hashtags },
+    revalidate: 1,
+  };
+} */

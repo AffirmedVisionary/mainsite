@@ -7,7 +7,6 @@ import { fetchAPI } from "../lib/api";
 const Blog = ({ articles, categories }) => {
   return (
     <Layout categories={categories}>
-      <Seo />
       <div className="uk-section">
         <div className="uk-container uk-container-large">
           <h1>The Blog</h1>

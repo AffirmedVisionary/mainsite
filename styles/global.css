@@ -60,6 +60,14 @@ h1 {
   line-height: 1.75;
 }
 
+#hashtags {
+  text-align: center;
+}
+
+.hashtag {
+  margin: 5px;
+} 
+
 .uk-navbar-container {
   background: #fff !important;
   font-family: Staatliches;

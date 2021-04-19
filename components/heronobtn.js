@@ -1,7 +1,7 @@
 
 
 
-const Hero1 = ( { data } ) => {
+const HeroNoBtn = ( { data } ) => {
     return (
 <div className="relative bg-white overflow-hidden">
   <div className="max-w-7xl mx-auto">
@@ -27,18 +27,6 @@ const Hero1 = ( { data } ) => {
                   {data.description}
             
           </p>
-          {/* <div className="mt-5 sm:mt-8 sm:flex sm:justify-center lg:justify-start">
-            <div className="rounded-md shadow">
-              <a href="#" className="w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-white bg-indigo-600 hover:bg-gray-700 md:py-4 md:text-lg md:px-10" style={{backgroundColor: '#000000'}}>
-                {data.button1}
-              </a>
-            </div>
-            <div className="mt-3 sm:mt-0 sm:ml-3">
-              <a href="#" className="w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-gray-700 bg-gray-100 hover:bg-gray-200 md:py-4 md:text-lg md:px-10">
-                {data.button2}
-              </a>
-            </div>
-          </div> */}
         </div>
       </main>
     </div>
@@ -50,4 +38,4 @@ const Hero1 = ( { data } ) => {
             )
 }
 
-export default Hero1
+export default HeroNoBtn

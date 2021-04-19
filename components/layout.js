@@ -1,9 +1,11 @@
 import Nav from "./nav";
+import Seo from './seo';
 
 
-const Layout = ({ children, categories, seo }) => (
+const Layout = ({ children, categories, seo, hashtags}) => (
   <>
-    <Nav categories={categories} />
+    <Seo seo={ seo }/>
+    <Nav categories={ categories } hashtags={ hashtags }/>
       {children}
   </>
 );

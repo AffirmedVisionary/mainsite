@@ -1,47 +1,68 @@
-import React from "react";
-import Articles from "../components/articles";
-import Layout from "../components/layout";
-import Seo from "../components/seo";
-import { fetchAPI } from "../lib/api";
+import React from 'react'
+import Layout from '../components/layout'
+import Seo from '../components/seo'
+import { fetchAPI } from '../lib/api'
 import Gallery from 'react-photo-gallery'
+import { Button, ButtonGroup } from 'react-bootstrap'
 
-
-const GalleryP = ({ articles, categories, images }) => {
-  const BasicRows = () => <Gallery photos={images} />;
+const GalleryP = ({ categories, images, hashtags }) => {
+  const BasicRows = () => <Gallery photos={images} />
 
   return (
     <Layout categories={categories}>
       <Seo />
-      <div className="uk-section">
+      <div className='uk-container uk-container-large'>
         <div>
-          <h1>The Gallery Spot</h1>
-          <div>
+          <h1>The Gallery</h1>
+        </div>
+
+        <div>
           <BasicRows />
-          </div>
         </div>
-        <div className="uk-container uk-container-large">
-          <h1>The Blog</h1>
+
+        <div style={{marginTop: '20px'}}>
+          <h3 style={{ textAlign: 'center' }}>Hashtags</h3>
+          <ButtonGroup id='hashtags'>
+          <Button
+                  variant='outline-dark'
+                  className='hashtag'
+                  onClick='filter'
+                >
+                  All
+                </Button>
+
+            {hashtags.map((hashtag) => {
+              return (
+                <Button
+                  variant='outline-dark'
+                  key={hashtag.id}
+                  className='hashtag'
+                  onClick='filter'
+                >
+                  {hashtag.name}
+                </Button>
+              )
+            })}
+          </ButtonGroup>
         </div>
-        <div id='for-articles'>
-          <Articles articles={articles} />
-          </div>
+
       </div>
     </Layout>
-  );
-};
+  )
+}
 
 export async function getStaticProps() {
   // Run API calls in parallel
-  const [articles, categories, images] = await Promise.all([
-    fetchAPI("/articles?status=published"),
-    fetchAPI("/categories"),
-    fetchAPI("/images"),
-  ]);
+  const [categories, images, hashtags] = await Promise.all([
+    fetchAPI('/categories'),
+    fetchAPI('/images'),
+    fetchAPI('/hashtags'),
+  ])
 
   return {
-    props: { articles, categories, images },
+    props: { categories, images, hashtags },
     revalidate: 1,
-  };
+  }
 }
 
-export default GalleryP;
+export default GalleryP
